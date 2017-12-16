@@ -1,0 +1,16 @@
+name: foundation-core
+main: us.vindere.foundation.Foundation
+version: 1.2
+description: The core for all foundation-based plugins.
+prefix: Foundation
+commands:
+  feed:
+    description: Used to fully restore a player's hunger.
+  gamemode:
+    aliases: [ gm ]
+    description: Used to change a player's game mode.
+  heal:
+    description: Used to fully restore a player's health.
+  nickname:
+    aliases: [ nick, nn ]
+    description: Used to change a player's nickname.
