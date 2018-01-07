@@ -16,8 +16,9 @@ public class phError {
         playerOffline = playerOffline.replaceAll("#player#", player);
         sender.sendMessage(Tools.tranColor(playerOffline));
     }
-    public void playerMissing (Foundation main, CommandSender sender){
+    public void playerMissing (Foundation main, CommandSender sender, String player){
         String playerMissing = main.getConfig().getString("messages.error.player_missing");
+        playerMissing = playerMissing.replaceAll("#player#", player);
         sender.sendMessage(Tools.tranColor(playerMissing));
     }
 }

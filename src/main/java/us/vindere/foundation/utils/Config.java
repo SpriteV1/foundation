@@ -1,5 +1,8 @@
 package us.vindere.foundation.utils;
 
+import org.bson.conversions.Bson;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import us.vindere.foundation.Foundation;
 
@@ -8,13 +11,12 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import us.vindere.foundation.commands.FeedCommand;
-import us.vindere.foundation.commands.GamemodeCommand;
-import us.vindere.foundation.commands.HealCommand;
-import us.vindere.foundation.commands.NicknameCommand;
+import us.vindere.foundation.commands.*;
 import us.vindere.foundation.events.PlayerJoin;
+import us.vindere.foundation.events.PlayerQuit;
 
 import java.io.File;
+import java.util.UUID;
 
 public class Config {
     public static MongoCollection<Document> collection;
@@ -36,9 +38,15 @@ public class Config {
     public Config(HealCommand instance){ heal = instance; }
     FeedCommand feed;
     public Config(FeedCommand instance){ feed = instance; }
-    PlayerJoin join;
+    IdentityCommand identity;
+    public Config(IdentityCommand instance){ identity = instance; }
+    PlayerJoin joinEvent;
     public Config(PlayerJoin instance){
-        join = instance;
+        joinEvent = instance;
+    }
+    PlayerQuit quitEvent;
+    public Config(PlayerQuit instance){
+        quitEvent = instance;
     }
 
     public void connect() {
@@ -90,6 +98,11 @@ public class Config {
     public Document getDocument(Player player){
         Document playerRecord = new Document("uuid", player.getUniqueId().toString());
         Document playerFound = (Document) Config.collection.find(playerRecord).first();
+        return playerFound;
+    }
+
+    public Document getOfflineDocument(String player) {
+        Document playerFound = (Document) collection.find(new Document ("user", player)).first();
         return playerFound;
     }
 }

@@ -1,13 +1,11 @@
 package us.vindere.foundation;
 
-import us.vindere.foundation.commands.FeedCommand;
-import us.vindere.foundation.commands.GamemodeCommand;
-import us.vindere.foundation.commands.HealCommand;
-import us.vindere.foundation.commands.NicknameCommand;
+import us.vindere.foundation.commands.*;
 import us.vindere.foundation.events.PlayerJoin;
+import us.vindere.foundation.events.PlayerQuit;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.phGamemode;
-import us.vindere.foundation.placeholders.phNickname;
+import us.vindere.foundation.placeholders.commands.phGamemode;
+import us.vindere.foundation.placeholders.commands.phNickname;
 import us.vindere.foundation.utils.Config;
 import us.vindere.foundation.utils.PlayerData;
 
@@ -23,7 +21,7 @@ public class Foundation extends JavaPlugin {
     public HashMap<UUID, PlayerData> playerDataHash;
 
     @Override
-    public void onEnable() {
+    public void onEnable(){
         // Initializes plugin.
         plugin = this;
 
@@ -42,16 +40,20 @@ public class Foundation extends JavaPlugin {
         this.getCommand("feed").setExecutor(new FeedCommand(plugin));
         this.getCommand("gamemode").setExecutor(new GamemodeCommand(plugin));
         this.getCommand("heal").setExecutor(new HealCommand(plugin));
+        this.getCommand("identity").setExecutor(new IdentityCommand(plugin));
         this.getCommand("nickname").setExecutor(new NicknameCommand(plugin));
+        this.getCommand("uptime").setExecutor(new UptimeCommand(plugin));
     }
     @Override
-    public void onDisable() {
+    public void onDisable(){
         // Sets instance to null on disable.
         plugin = null;
     }
 
     private void setEvents(){
-        PlayerJoin playerjoin = new PlayerJoin(plugin);
-        Bukkit.getPluginManager().registerEvents(playerjoin, plugin);
+        PlayerJoin playerJoin = new PlayerJoin(plugin);
+        PlayerQuit playerQuit = new PlayerQuit(plugin);
+        Bukkit.getPluginManager().registerEvents(playerJoin, plugin);
+        Bukkit.getPluginManager().registerEvents(playerQuit, plugin);
     }
 }

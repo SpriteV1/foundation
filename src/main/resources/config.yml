@@ -28,12 +28,13 @@ mongodb:
 #                          firstjoin FORMAT.
 #   playername: Set the playername format. Valid placeholders are:'#player#'
 #   displayname: Set the displayname format. Valid placeholders are: '#player#' and
-#                  '#displayname#'
+                                  #                  '#displayname#'
 #   firstjoin: Set the first join format for when a user first joins the server. Valid
 #              placeholders are: '#total#'
 playerjoin:
   join_message_enable: true
-  join_message_format: "playername"
+  join_message_type: "playername"
+  join_sounds_enable: true
   message_format:
     playername: "&8[&a+&8] &a#player#"
     displayname: "&8[&a+&8] &a#displayname# &8(&a#player#&8)"
@@ -49,7 +50,8 @@ playerjoin:
 #                  '#displayname#'
 playerleave:
   leave_message_enable: true
-  leave_messageformat: "playername"
+  leave_message_type: "playername"
+  leave_sounds_enable: true
   message_format:
     playername: "&8[&c-&8] &c#player#"
     displayname: "&8[&c-&8] &c#displayname# &8(&c#player#&8)"
@@ -79,7 +81,7 @@ messages:
       feeded_message: "&7You have been fed!"
     gamemode:
       usage: "&eUsage: &7/gamemode &f[player] <gamemode>"
-      console_error: "&cThe console's gamemode may not be changed."
+      console_error: "&cThe console's gamemode may not be changed!"
       invalid_gamemode: "&7The gamemode &c#gamemode# &7does not exist!"
       gamemoder_message: "&7You have changed &f#gamemodee#&7's gamemode to: \n&f#gamemode#"
       gamemodee_message: "&7Your gamemode has been changed by &f#gamemoder#&7 and is now: \n&f#gamemode#"
@@ -90,9 +92,24 @@ messages:
       healer_message: "&7You have healed &f#healee#&7."
       healee_message: "&7You have been healed by &f#healer#&7."
       healed_message: "&7You have been healed!"
+    identity:
+      usage: "&eUsage &7/identity &f[player]"
+      console_error: "&cThe console may not be identified!"
+      regular_format:
+        - "&7Player Identity &8- &7Regular View"
+        - ""
+        - "&7Player: &e#player#"
+        - "&7Displayname: &e#displayname#"
+      privileged_format:
+        - "&7Player Identity &8- &cPrivileged View"
+        - ""
+        - "&7Player: &e#player#"
+        - "&7Displayname: &e#displayname#"
     nickname:
       usage: "&eUsage: &7/nickname &f[player] <nickname>"
       console_error: "&cThe console may not be nicknamed."
       nicknamer_message: "&7You have changed &f#nicknamee#&7's nickname to: \n&f#nickname#"
       nicknamee_message: "&7Your nickname has been changed by &f#nicknamer#&7 and is now: \n&f#nickname#"
       nicknamed_message: "&7Your nickname has been changed to: &f#nickname#"
+    uptime:
+      format: "&7The server has been up for: &e#uptime#"

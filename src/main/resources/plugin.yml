@@ -11,6 +11,12 @@ commands:
     description: Used to change a player's game mode.
   heal:
     description: Used to fully restore a player's health.
+  identity:
+    aliases: [ id, seen, whois, playtime, pt, ptime ]
+    description: Used to see a player's information.
   nickname:
     aliases: [ nick, nn ]
     description: Used to change a player's nickname.
+  uptime:
+    aliases: [ utime, ut ]
+    description: Used to check the server's uptime.

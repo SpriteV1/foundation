@@ -8,69 +8,65 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import us.vindere.foundation.Foundation;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.commands.phFeed;
+import us.vindere.foundation.placeholders.commands.phIdentity;
 import us.vindere.foundation.utils.Config;
 import us.vindere.foundation.utils.Tools;
 
-public class FeedCommand implements CommandExecutor{
+public class IdentityCommand implements CommandExecutor {
     Foundation main;
-    public FeedCommand(Foundation instance) { main = instance; }
+    public IdentityCommand(Foundation instance) { main = instance; }
     phError error = new phError();
-    phFeed feed = new phFeed();
+    phIdentity identity = new phIdentity();
 
     public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args) {
         Config config = new Config(this);
         Player player = Tools.getPlayer(sender);
-        Permission selfFeed = new Permission("f.feed.self");
-        Permission othersFeed = new Permission("f.feed.others");
+        Permission _regularView = new Permission("f.identity.regular");
+        Permission _privilegedView = new Permission("f.identity.privileged");
 
         if (player != null) {
             if (args.length < 1) {
-                if (sender.hasPermission(selfFeed)) {
-                    player.setExhaustion(0);
-                    player.setFoodLevel(20);
-                    feed.feeded(main, sender);
+                if (sender.hasPermission(_regularView) || sender.hasPermission(_privilegedView)) {
+                    identity.privilegedFormat(main, sender, player);
                     return true;
                 } else {
-                    error.noPerm(main, sender, selfFeed);
+                    error.noPerm(main, sender, _regularView);
                     return false;
-            }
+                }
             } else if (args.length >= 1) {
                 Player player2 = Bukkit.getPlayer(args[0].toString());
                 if (player2 != null) {
-                    if (sender.hasPermission(othersFeed)) {
-                        player2.setExhaustion(0);
-                        player2.setFoodLevel(20);
-                        feed.feeder(main, sender, player2);
-                        feed.feedee(main, sender, player2);
+                    if (sender.hasPermission(_regularView)) {
+                        return true;
+                    } else if (sender.hasPermission(_privilegedView)) {
                         return true;
                     } else {
-                        error.noPerm(main, sender, othersFeed);
-                        return false;
+                            error.noPerm(main, sender, _regularView);
+                            return false;
+                        }
                     }
                 } else {
                     error.playerOffline(main, sender, args[0].toString());
                     return false;
                 }
             }
-        } else {
+/*        } else {
             if (args.length < 1) {
-                feed.consoleError(main, sender);
+                heal.consoleError(main, sender);
                 return false;
             } else if (args.length >= 1) {
                 Player player2 = Bukkit.getPlayer(args[0].toString());
                 if (player2 != null) {
-                    player2.setExhaustion(0);
-                    player2.setFoodLevel(20);
-                    feed.feeder(main, sender, player2);
-                    feed.feedee(main, sender, player2);
+                    player2.setHealth(20);
+                    heal.healer(main, sender, player2);
+                    heal.healee(main, sender, player2);
                     return true;
                 } else {
                     error.playerOffline(main, sender, args[0].toString());
                     return false;
                 }
             }
-        }
+        } */
         return false;
     }
 }

@@ -6,6 +6,9 @@ import us.vindere.foundation.Foundation;
 
 import org.bukkit.ChatColor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class Tools {
     // Semds the specified message to the console with a prefix.
     public static void sendConsole(String message) {
@@ -37,5 +40,9 @@ public class Tools {
         } else {
             return null;
         }
+    }
+
+    public static void getDate(){
+        DateFormat format = new SimpleDateFormat("MM/dd");
     }
 }
