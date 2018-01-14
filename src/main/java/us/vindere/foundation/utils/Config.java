@@ -14,6 +14,7 @@ import org.bson.Document;
 import us.vindere.foundation.commands.*;
 import us.vindere.foundation.events.PlayerJoin;
 import us.vindere.foundation.events.PlayerQuit;
+import us.vindere.foundation.placeholders.commands.phIdentity;
 
 import java.io.File;
 import java.util.UUID;
@@ -38,6 +39,8 @@ public class Config {
     public Config(HealCommand instance){ heal = instance; }
     FeedCommand feed;
     public Config(FeedCommand instance){ feed = instance; }
+    SpawnCommand spawn;
+    public Config(SpawnCommand instance){ spawn = instance; }
     IdentityCommand identity;
     public Config(IdentityCommand instance){ identity = instance; }
     PlayerJoin joinEvent;
@@ -48,6 +51,8 @@ public class Config {
     public Config(PlayerQuit instance){
         quitEvent = instance;
     }
+    phIdentity identityPlaceholder;
+    public Config(phIdentity instance){ identityPlaceholder = instance; }
 
     public void connect() {
         String mongodb_uri = main.getConfig().getString("mongodb.uri");

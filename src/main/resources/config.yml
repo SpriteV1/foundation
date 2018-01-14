@@ -20,6 +20,12 @@ mongodb:
   database: ""
   player_data_collection: ""
 
+
+# Server Variables
+#   Change at your own risk.
+server:
+  spawn: ""
+
 # Player Join Settings
 #   join_message_enable: Set to 'true' or 'false' to enable or disable join messages.
 #   join_message_format: Set to "playername" or "displayname" to choose the join message
@@ -67,6 +73,11 @@ economy:
 gamemode:
   use_lowercase_names: false
 
+identity:
+  date_format: "full"
+
+# Message Settings
+#   Edit to your preferences to match the rest of your server.
 messages:
   error:
     no_perms: "&7You do not have permission to do that!"
@@ -95,21 +106,37 @@ messages:
     identity:
       usage: "&eUsage &7/identity &f[player]"
       console_error: "&cThe console may not be identified!"
+      color:
+        online: "&a"
+        offline: "&c"
       regular_format:
-        - "&7Player Identity &8- &7Regular View"
-        - ""
-        - "&7Player: &e#player#"
+        - "&8--------------------"
+        - "      &7&lPlayer Identity"
+        - "&8--------------------"
+        - "&7Player: &e#player# &7(#status#&7)"
         - "&7Displayname: &e#displayname#"
+        - "&7Last Login: &e#last_date#"
+        - "  &f#time_since#"
       privileged_format:
-        - "&7Player Identity &8- &cPrivileged View"
-        - ""
-        - "&7Player: &e#player#"
+        - "&8-----------------------------------"
+        - "      &7&lPlayer Identity &8&l- &c&lPrivileged View"
+        - "&8-----------------------------------"
+        - "&7Player: &e#player# &7(#status#&7)"
         - "&7Displayname: &e#displayname#"
+        - "&7IP Address: &e#ip#"
+        - "&7First Login: &e#first_date#"
+        - "&7Last Login: &e#last_date#"
+        - "&7Time Since Last Login: &e#time_since_last_login# ago."
     nickname:
       usage: "&eUsage: &7/nickname &f[player] <nickname>"
       console_error: "&cThe console may not be nicknamed."
       nicknamer_message: "&7You have changed &f#nicknamee#&7's nickname to: \n&f#nickname#"
       nicknamee_message: "&7Your nickname has been changed by &f#nicknamer#&7 and is now: \n&f#nickname#"
       nicknamed_message: "&7Your nickname has been changed to: &f#nickname#"
+    spawn:
+      usage: "&eUsage: &7/spawn &f[set]"
+      console_error: "&cThe console may not use spawn-related commands."
+      spawn_teleport_message: "&7You have been teleported to spawn."
+      spawn_set_message: "&7The spawn has been set to: &e#location#"
     uptime:
       format: "&7The server has been up for: &e#uptime#"

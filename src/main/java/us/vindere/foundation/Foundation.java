@@ -7,25 +7,18 @@ import us.vindere.foundation.placeholders.phError;
 import us.vindere.foundation.placeholders.commands.phGamemode;
 import us.vindere.foundation.placeholders.commands.phNickname;
 import us.vindere.foundation.utils.Config;
-import us.vindere.foundation.utils.PlayerData;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class Foundation extends JavaPlugin {
 
     public static Foundation plugin;
-    public HashMap<UUID, PlayerData> playerDataHash;
 
     @Override
     public void onEnable(){
         // Initializes plugin.
         plugin = this;
 
-        playerDataHash = new HashMap();
         Config config = new Config(plugin);
 
         // Connects to MongoDB database as stated in config.yml.

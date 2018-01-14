@@ -13,10 +13,10 @@ import us.vindere.foundation.utils.Config;
 import us.vindere.foundation.utils.Tools;
 
 public class IdentityCommand implements CommandExecutor {
-    Foundation main;
+    private Foundation main;
     public IdentityCommand(Foundation instance) { main = instance; }
-    phError error = new phError();
-    phIdentity identity = new phIdentity();
+    private phError error = new phError();
+    private phIdentity identity = new phIdentity();
 
     public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args) {
         Config config = new Config(this);
@@ -27,46 +27,33 @@ public class IdentityCommand implements CommandExecutor {
         if (player != null) {
             if (args.length < 1) {
                 if (sender.hasPermission(_regularView) || sender.hasPermission(_privilegedView)) {
-                    identity.privilegedFormat(main, sender, player);
+                    identity.privilegedFormat(main, sender, player.getName());
                     return true;
                 } else {
                     error.noPerm(main, sender, _regularView);
                     return false;
                 }
-            } else if (args.length >= 1) {
-                Player player2 = Bukkit.getPlayer(args[0].toString());
-                if (player2 != null) {
-                    if (sender.hasPermission(_regularView)) {
-                        return true;
-                    } else if (sender.hasPermission(_privilegedView)) {
-                        return true;
-                    } else {
-                            error.noPerm(main, sender, _regularView);
-                            return false;
-                        }
-                    }
-                } else {
-                    error.playerOffline(main, sender, args[0].toString());
-                    return false;
-                }
-            }
-/*        } else {
-            if (args.length < 1) {
-                heal.consoleError(main, sender);
-                return false;
-            } else if (args.length >= 1) {
-                Player player2 = Bukkit.getPlayer(args[0].toString());
-                if (player2 != null) {
-                    player2.setHealth(20);
-                    heal.healer(main, sender, player2);
-                    heal.healee(main, sender, player2);
+            } else {
+                if (sender.hasPermission(_privilegedView)) {
+                    identity.privilegedFormat(main, sender, args[0]);
+                    return true;
+                } else if (sender.hasPermission(_regularView)) {
+                    identity.regularFormat(main, sender, args[0]);
                     return true;
                 } else {
-                    error.playerOffline(main, sender, args[0].toString());
+                    error.noPerm(main, sender, _regularView);
                     return false;
                 }
             }
-        } */
+        } else {
+            if (args.length < 1) {
+                identity.consoleError(main, sender);
+                return false;
+            } else if (args.length >= 1) {
+                identity.privilegedFormat(main, sender, args[0]);
+                return true;
+            }
+        }
         return false;
     }
 }
