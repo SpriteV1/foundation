@@ -8,11 +8,16 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import us.vindere.foundation.commands.FeedCommand;
-import us.vindere.foundation.commands.GamemodeCommand;
-import us.vindere.foundation.commands.HealCommand;
-import us.vindere.foundation.commands.NicknameCommand;
+import us.vindere.foundation.commands.admin.VanishCommand;
+import us.vindere.foundation.commands.core.IdentityCommand;
+import us.vindere.foundation.commands.core.NicknameCommand;
+import us.vindere.foundation.commands.game.FeedCommand;
+import us.vindere.foundation.commands.game.GamemodeCommand;
+import us.vindere.foundation.commands.game.HealCommand;
+import us.vindere.foundation.commands.game.SpawnCommand;
 import us.vindere.foundation.events.PlayerJoin;
+import us.vindere.foundation.events.PlayerQuit;
+import us.vindere.foundation.placeholders.commands.core.phIdentity;
 
 import java.io.File;
 
@@ -36,10 +41,22 @@ public class Config {
     public Config(HealCommand instance){ heal = instance; }
     FeedCommand feed;
     public Config(FeedCommand instance){ feed = instance; }
-    PlayerJoin join;
+    SpawnCommand spawn;
+    public Config(SpawnCommand instance){ spawn = instance; }
+    IdentityCommand identity;
+    public Config(IdentityCommand instance){ identity = instance; }
+    VanishCommand vanish;
+    public Config(VanishCommand instance){ vanish = instance; }
+    PlayerJoin joinEvent;
     public Config(PlayerJoin instance){
-        join = instance;
+        joinEvent = instance;
     }
+    PlayerQuit quitEvent;
+    public Config(PlayerQuit instance){
+        quitEvent = instance;
+    }
+    phIdentity identityPlaceholder;
+    public Config(phIdentity instance){ identityPlaceholder = instance; }
 
     public void connect() {
         String mongodb_uri = main.getConfig().getString("mongodb.uri");
@@ -90,6 +107,11 @@ public class Config {
     public Document getDocument(Player player){
         Document playerRecord = new Document("uuid", player.getUniqueId().toString());
         Document playerFound = (Document) Config.collection.find(playerRecord).first();
+        return playerFound;
+    }
+
+    public Document getOfflineDocument(String player) {
+        Document playerFound = (Document) collection.find(new Document ("user", player)).first();
         return playerFound;
     }
 }

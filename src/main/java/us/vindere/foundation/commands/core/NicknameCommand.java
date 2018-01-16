@@ -1,4 +1,4 @@
-package us.vindere.foundation.commands;
+package us.vindere.foundation.commands.core;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -10,43 +10,39 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import us.vindere.foundation.Foundation;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.phNickname;
+import us.vindere.foundation.placeholders.commands.core.phNickname;
 import us.vindere.foundation.utils.Config;
+import us.vindere.foundation.utils.PlayerData;
 import us.vindere.foundation.utils.Tools;
 
 public class NicknameCommand implements CommandExecutor {
-    Foundation main;
+    private Foundation main;
     public NicknameCommand(Foundation instance){ main = instance; }
-    phError error = new phError();
-    phNickname nickname = new phNickname();
+    private phError error = new phError();
+    private phNickname nickname = new phNickname();
+    private PlayerData data = new PlayerData();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Config config = new Config(this);
         Permission nickSelf = new Permission("f.nickname.self");
         Permission nickOthers = new Permission("f.nickname.others");
         Player player = Tools.getPlayer(sender);
-        Bson playerDoc;
-
-        if (player != null) {
-            playerDoc = config.getDocument(player);
-        }
 
         // Player sender only
         if (player != null && args.length == 1) {
             if (sender.hasPermission(nickSelf)) {
-                changeNick(player, sender, args[0].toString());
+                changeNick(player.getName(), sender, args[0]);
                 return true;
             } else {
                 error.noPerm(main, sender, nickSelf);
                 return false;
             }
         } else if (player != null && args.length >= 2) {
-            Player player2 = Bukkit.getPlayer(args[0].toString());
+            Player player2 = Bukkit.getPlayer(args[0]);
             if (player2 != null) {
                 if (player.getName().equals(player2.getName())) {
                     if (sender.hasPermission(nickSelf)) {
-                        changeNick(player, sender, args[1].toString());
+                        changeNick(player.getName(), sender, args[1]);
                         return true;
                     } else {
                         error.noPerm(main, sender, nickSelf);
@@ -54,7 +50,7 @@ public class NicknameCommand implements CommandExecutor {
                     }
                 } else {
                     if (sender.hasPermission(nickOthers)) {
-                        changeNick(player2, sender, args[1].toString());
+                        changeNick(args[0], sender, args[1]);
                         return true;
                     } else {
                         error.noPerm(main, sender, nickOthers);
@@ -62,57 +58,53 @@ public class NicknameCommand implements CommandExecutor {
                     }
                 }
             } else {
-                error.playerOffline(main, sender, args[0].toString());
-                return false;
+                changeNick(args[0], sender, args[1]);
+                return true;
             }
-        } else if (player != null && args.length < 1) {
+        } else if (player != null) {
             nickname.usage(main, sender);
             return true;
 
             //Console sender only
-        } else if (player == null && args.length < 1){
+        } else if (args.length < 1){
             nickname.usage(main, sender);
             return true;
-        } else if (player == null && args.length == 1) {
+        } else if (args.length == 1) {
             nickname.consoleError(main, sender);
             return false;
-        } else if (player == null && args.length >= 2) {
-            Player player2 = Bukkit.getPlayer(args[0].toString());
-            if (player2 != null) {
-                changeNick(player2, sender, args[1].toString());
-                return true;
-            } else {
-                error.playerOffline(main, sender, args[0].toString());
-                return false;
-            }
+        } else {
+            changeNick(args[0], sender, args[1]);
+            return true;
         }
-        return false;
     }
 
-    private void changeNick(Player player, CommandSender sender, String nick){
+    private void changeNick(String player, CommandSender sender, String nick) {
         Config config = new Config(this);
+        Player playerObject = Bukkit.getPlayer(player);
 
-        if (Tools.isPlayer(sender) == true) {
-            Document playerDoc = config.getDocument(player);
+        if (playerObject != null) {
+            Document playerDoc = config.getDocument(playerObject);
             Bson updateNick = new Document("displayname", nick);
             Bson updateOperation = new Document("$set", updateNick);
             Config.collection.updateOne(playerDoc, updateOperation);
-            if (sender.getName().equals(player.getName())) {
+            if (sender.getName().equals(player)) {
+                data.setString(playerObject.getUniqueId(), null, "displayname", nick);
                 nickname.nicknamed(main, sender, nick);
-                player.setDisplayName(Tools.tranColor(nick) + Tools.tranColor("&r"));
+                playerObject.setDisplayName(Tools.tranColor(nick) + Tools.tranColor("&r"));
             } else {
-                nickname.nicknamer(main, sender,player,nick);
-                nickname.nicknamee(main, sender, player, nick);
-                player.setDisplayName(Tools.tranColor(nick) + Tools.tranColor("&r"));
+                data.setString(playerObject.getUniqueId(), null, "displayname", nick);
+                nickname.nicknamer(main, sender, player, nick);
+                nickname.nicknamee(main, sender, playerObject, nick);
+                playerObject.setDisplayName(Tools.tranColor(nick) + Tools.tranColor("&r"));
             }
         } else {
-            Document playerDoc = config.getDocument(player);
-            Bson updateNick = new Document("displayname", nick);
-            Bson updateOperation = new Document("$set", updateNick);
-            Config.collection.updateOne(playerDoc, updateOperation);
-            nickname.nicknamer(main, sender,player,nick);
-            nickname.nicknamee(main, sender, player, nick);
-            player.setDisplayName(Tools.tranColor(nick) + Tools.tranColor("&r"));
+            Document playerDoc = config.getOfflineDocument(player);
+            if (playerDoc != null) {
+                data.setString(null, player, "displayname", nick);
+                nickname.nicknamer(main, sender, player, nick);
+            } else {
+                error.playerMissing(main, sender, player);
+            }
         }
     }
 }

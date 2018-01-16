@@ -1,4 +1,4 @@
-package us.vindere.foundation.commands;
+package us.vindere.foundation.commands.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import us.vindere.foundation.Foundation;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.phFeed;
+import us.vindere.foundation.placeholders.commands.game.phFeed;
 import us.vindere.foundation.utils.Config;
 import us.vindere.foundation.utils.Tools;
 

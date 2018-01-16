@@ -1,50 +1,105 @@
 package us.vindere.foundation.utils;
 
-public class PlayerData {
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
+public class PlayerData {
     private String uuid;
     private String user;
     private String displayname;
     private int balance;
-    private String rank;
+    private String ip;
+    private String first_login;
+    private String last_login;
 
-    public PlayerData(String uuid, String user, String displayname, int balance){
+    public Object[] fromUUID(String uuid){
+        Document playerRecord = new Document("uuid", uuid);
+        Document playerFound = (Document) Config.collection.find(playerRecord).first();
+
         this.uuid = uuid;
-        this.user = user;
-        this.displayname = displayname;
-        this.balance = balance;
-        this.rank = rank;
+        this.user = playerFound.getString("user");
+        this.displayname = playerFound.getString("displayname");
+        this.balance = playerFound.getInteger("balance");
+        this.ip = playerFound.getString("ip");
+        this.first_login = playerFound.getString("first_login");
+        this.last_login = playerFound.getString("last_login");
+
+        Object[] array = new Object[]{
+                this.uuid,
+                this.user,
+                this.displayname,
+                this.balance,
+                this.ip,
+                this.first_login,
+                this.last_login
+        };
+        return array;
     }
 
-    // Getter and Setter for uuid
-    public String getUuid() {
-        return uuid;
-    }
-    public void setUuid(String uuid){
-        this.uuid = uuid;
+    public Object[] fromString(String string){
+        Document playerRecord = new Document("user", string);
+        Document playerFound = (Document) Config.collection.find(playerRecord).first();
+
+        if (playerFound == null){
+            return null;
+        }
+
+        this.uuid = playerFound.getString("uuid");
+        this.user = string;
+        this.displayname = playerFound.getString("displayname");
+        this.balance = playerFound.getInteger("balance");
+        this.ip = playerFound.getString("ip");
+        this.first_login = playerFound.getString("first_login");
+        this.last_login = playerFound.getString("last_login");
+
+        Object[] array = new Object[]{
+                this.uuid,
+                this.user,
+                this.displayname,
+                this.balance,
+                this.ip,
+                this.first_login,
+                this.last_login
+        };
+        return array;
     }
 
-    // Getter and Setter for user
-    public String getUser() {
-        return user;
-    }
-    public void setUser(String user){
-        this.user = user;
+    public void setString(UUID uuid, String player, String field, String data){
+        Document playerRecord;
+        Document playerFound;
+        Player playerObject = Bukkit.getPlayer(uuid);
+
+        if (playerObject != null){
+            playerRecord = new Document("uuid", uuid);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        } else {
+            playerRecord = new Document("user", player);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        }
+
+        Bson updateField = new Document(field, data);
+        Bson updateOperation = new Document("$set", updateField);
+        Config.collection.updateOne(playerFound, updateOperation);
     }
 
-    // Getter and Setter for displayname
-    public String getDisplayname() {
-        return displayname;
-    }
-    public void setDisplayname(String displayname){
-        this.displayname = displayname;
-    }
+    public void setInt(String uuid, String player, String field, int data){
+        Document playerRecord;
+        Document playerFound;
 
-    // Getter and Setter for balance
-    public int getBalance(){
-        return balance;
-    }
-    public void setBalance(int balance){
-        this.balance = balance;
+        if (!uuid.equals(null)){
+            playerRecord = new Document("uuid", uuid);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        } else {
+            playerRecord = new Document("user", player);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        }
+
+        Bson updateField = new Document(field, data);
+        Bson updateOperation = new Document("$set", updateField);
+        Config.collection.updateOne(playerFound, updateOperation);
     }
 }

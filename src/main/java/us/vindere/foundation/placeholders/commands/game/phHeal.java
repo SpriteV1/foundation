@@ -1,4 +1,4 @@
-package us.vindere.foundation.placeholders;
+package us.vindere.foundation.placeholders.commands.game;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -6,11 +6,11 @@ import us.vindere.foundation.Foundation;
 import us.vindere.foundation.utils.Tools;
 
 public class phHeal {
-    public void usage(Foundation main, CommandSender sender){
+    public void usage(Foundation main, CommandSender sender) {
         String usage = main.getConfig().getString("messages.command.heal.usage");
         sender.sendMessage(Tools.tranColor(usage));
     }
-    public void consoleError(Foundation main, CommandSender sender){
+    public void consoleError(Foundation main, CommandSender sender) {
         String consoleError = main.getConfig().getString("messages.command.heal.console_error");
         sender.sendMessage(Tools.tranColor(consoleError));
     }

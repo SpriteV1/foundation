@@ -20,6 +20,12 @@ mongodb:
   database: ""
   player_data_collection: ""
 
+
+# Server Variables
+#   Change at your own risk.
+server:
+  spawn: ""
+
 # Player Join Settings
 #   join_message_enable: Set to 'true' or 'false' to enable or disable join messages.
 #   join_message_format: Set to "playername" or "displayname" to choose the join message
@@ -28,12 +34,13 @@ mongodb:
 #                          firstjoin FORMAT.
 #   playername: Set the playername format. Valid placeholders are:'#player#'
 #   displayname: Set the displayname format. Valid placeholders are: '#player#' and
-#                  '#displayname#'
+                                  #                  '#displayname#'
 #   firstjoin: Set the first join format for when a user first joins the server. Valid
 #              placeholders are: '#total#'
 playerjoin:
   join_message_enable: true
-  join_message_format: "playername"
+  join_message_type: "playername"
+  join_sounds_enable: true
   message_format:
     playername: "&8[&a+&8] &a#player#"
     displayname: "&8[&a+&8] &a#displayname# &8(&a#player#&8)"
@@ -49,7 +56,8 @@ playerjoin:
 #                  '#displayname#'
 playerleave:
   leave_message_enable: true
-  leave_messageformat: "playername"
+  leave_message_type: "playername"
+  leave_sounds_enable: true
   message_format:
     playername: "&8[&c-&8] &c#player#"
     displayname: "&8[&c-&8] &c#displayname# &8(&c#player#&8)"
@@ -65,6 +73,11 @@ economy:
 gamemode:
   use_lowercase_names: false
 
+identity:
+  date_format: "full"
+
+# Message Settings
+#   Edit to your preferences to match the rest of your server.
 messages:
   error:
     no_perms: "&7You do not have permission to do that!"
@@ -79,7 +92,7 @@ messages:
       feeded_message: "&7You have been fed!"
     gamemode:
       usage: "&eUsage: &7/gamemode &f[player] <gamemode>"
-      console_error: "&cThe console's gamemode may not be changed."
+      console_error: "&cThe console's gamemode may not be changed!"
       invalid_gamemode: "&7The gamemode &c#gamemode# &7does not exist!"
       gamemoder_message: "&7You have changed &f#gamemodee#&7's gamemode to: \n&f#gamemode#"
       gamemodee_message: "&7Your gamemode has been changed by &f#gamemoder#&7 and is now: \n&f#gamemode#"
@@ -90,9 +103,51 @@ messages:
       healer_message: "&7You have healed &f#healee#&7."
       healee_message: "&7You have been healed by &f#healer#&7."
       healed_message: "&7You have been healed!"
+    identity:
+      usage: "&eUsage &7/identity &f[player]"
+      console_error: "&cThe console may not be identified!"
+      color:
+        online: "&a"
+        offline: "&c"
+      regular_format:
+        - "&8--------------------"
+        - "      &7&lPlayer Identity"
+        - "&8--------------------"
+        - "&7Player: &e#player# &7(#status#&7)"
+        - "&7Displayname: &e#displayname#"
+        - "&7Last Login: &e#last_date#"
+        - "  &f#time_since#"
+      privileged_format:
+        - "&8-----------------------------------"
+        - "      &7&lPlayer Identity &8&l- &c&lPrivileged View"
+        - "&8-----------------------------------"
+        - "&7Player: &e#player# &7(#status#&7)"
+        - "&7Displayname: &e#displayname#"
+        - "&7IP Address: &e#ip#"
+        - "&7First Login: &e#first_date#"
+        - "&7Last Login: &e#last_date#"
+        - "&7Time Since Last Login: &e#time_since_last_login# ago."
     nickname:
       usage: "&eUsage: &7/nickname &f[player] <nickname>"
       console_error: "&cThe console may not be nicknamed."
       nicknamer_message: "&7You have changed &f#nicknamee#&7's nickname to: \n&f#nickname#"
       nicknamee_message: "&7Your nickname has been changed by &f#nicknamer#&7 and is now: \n&f#nickname#"
       nicknamed_message: "&7Your nickname has been changed to: &f#nickname#"
+    spawn:
+      usage: "&eUsage: &7/spawn &f[set]"
+      console_error: "&cThe console may not use spawn-related commands."
+      spawn_teleport_message: "&7You have been teleported to spawn."
+      spawn_set_message: "&7The spawn has been set to: &e#location#"
+    uptime:
+      format: "&7The server has been up for: &e#uptime#"
+    ping:
+      usage: "&eUsage: &7/ping &f[player]"
+      console_error: "&cThe console may not be pinged!"
+      pinger_message: "&f#pingee#&7's ping is: &f#ping#"
+      pinged_message: "&7Your ping is: &f#ping#"
+    vanish:
+      usage: "&eUsage: &7/vanish &f[player]"
+      console_error: "&cThe console may not be vanished!"
+      vanisher_message: "&7You have set &f#vanishee#&7's vanish state to &f#state#&7."
+      vanishee_message: "&7Your vanish state has been set to #state# by &f#vanisher#&7."
+      vanished_message: "&7Your vanish state has been set to &f#state#&7."

@@ -1,4 +1,4 @@
-package us.vindere.foundation.placeholders;
+package us.vindere.foundation.placeholders.commands.core;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,9 +14,9 @@ public class phNickname {
         String consoleError = main.getConfig().getString("messages.command.nickname.console_error");
         sender.sendMessage(Tools.tranColor(consoleError));
     }
-    public void nicknamer (Foundation main, CommandSender sender, Player player, String nickname) {
+    public void nicknamer (Foundation main, CommandSender sender, String player, String nickname) {
         String nicknamer_message = main.getConfig().getString("messages.command.nickname.nicknamer_message");
-        nicknamer_message = nicknamer_message.replaceAll("#nicknamee#", player.getName());
+        nicknamer_message = nicknamer_message.replaceAll("#nicknamee#", player);
         nicknamer_message = nicknamer_message.replaceAll("#nickname#", nickname);
         sender.sendMessage(Tools.tranColor(nicknamer_message));
     }
