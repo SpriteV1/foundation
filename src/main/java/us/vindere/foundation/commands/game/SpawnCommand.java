@@ -1,4 +1,4 @@
-package us.vindere.foundation.commands;
+package us.vindere.foundation.commands.game;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

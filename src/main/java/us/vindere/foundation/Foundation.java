@@ -1,11 +1,14 @@
 package us.vindere.foundation;
 
-import us.vindere.foundation.commands.*;
+import us.vindere.foundation.commands.admin.VanishCommand;
+import us.vindere.foundation.commands.core.IdentityCommand;
+import us.vindere.foundation.commands.core.NicknameCommand;
+import us.vindere.foundation.commands.core.UptimeCommand;
+import us.vindere.foundation.commands.game.FeedCommand;
+import us.vindere.foundation.commands.game.GamemodeCommand;
+import us.vindere.foundation.commands.game.HealCommand;
 import us.vindere.foundation.events.PlayerJoin;
 import us.vindere.foundation.events.PlayerQuit;
-import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.commands.phGamemode;
-import us.vindere.foundation.placeholders.commands.phNickname;
 import us.vindere.foundation.utils.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,16 +29,13 @@ public class Foundation extends JavaPlugin {
 
         setEvents();
 
-        phError phError = new phError();
-        phNickname phNickname = new phNickname();
-        phGamemode phGamemode = new phGamemode();
-
         this.getCommand("feed").setExecutor(new FeedCommand(plugin));
         this.getCommand("gamemode").setExecutor(new GamemodeCommand(plugin));
         this.getCommand("heal").setExecutor(new HealCommand(plugin));
         this.getCommand("identity").setExecutor(new IdentityCommand(plugin));
         this.getCommand("nickname").setExecutor(new NicknameCommand(plugin));
         this.getCommand("uptime").setExecutor(new UptimeCommand(plugin));
+        this.getCommand("vanish").setExecutor(new VanishCommand(plugin));
     }
     @Override
     public void onDisable(){

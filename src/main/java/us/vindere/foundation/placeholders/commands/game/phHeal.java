@@ -1,4 +1,4 @@
-package us.vindere.foundation.placeholders.commands;
+package us.vindere.foundation.placeholders.commands.game;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

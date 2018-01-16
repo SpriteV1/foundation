@@ -1,7 +1,11 @@
 package us.vindere.foundation.utils;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class PlayerData {
     private String uuid;
@@ -64,4 +68,38 @@ public class PlayerData {
         return array;
     }
 
+    public void setString(UUID uuid, String player, String field, String data){
+        Document playerRecord;
+        Document playerFound;
+        Player playerObject = Bukkit.getPlayer(uuid);
+
+        if (playerObject != null){
+            playerRecord = new Document("uuid", uuid);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        } else {
+            playerRecord = new Document("user", player);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        }
+
+        Bson updateField = new Document(field, data);
+        Bson updateOperation = new Document("$set", updateField);
+        Config.collection.updateOne(playerFound, updateOperation);
+    }
+
+    public void setInt(String uuid, String player, String field, int data){
+        Document playerRecord;
+        Document playerFound;
+
+        if (!uuid.equals(null)){
+            playerRecord = new Document("uuid", uuid);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        } else {
+            playerRecord = new Document("user", player);
+            playerFound = (Document) Config.collection.find(playerRecord).first();
+        }
+
+        Bson updateField = new Document(field, data);
+        Bson updateOperation = new Document("$set", updateField);
+        Config.collection.updateOne(playerFound, updateOperation);
+    }
 }

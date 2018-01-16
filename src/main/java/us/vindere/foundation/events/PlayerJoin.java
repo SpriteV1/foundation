@@ -44,6 +44,7 @@ public class PlayerJoin implements Listener{
         } else {
             String displayname = playerFound.getString("displayname");
             Bson updateIP = new Document("ip", player.getAddress().getHostString());
+
             Bson updateDate = new Document("last_login", date);
             Bson updateIPOp = new Document("$set", updateIP);
             Bson updateDateOp = new Document("$set", updateDate);
@@ -61,7 +62,7 @@ public class PlayerJoin implements Listener{
 
         if(messages_enable && !firstJoin){
             PlayerData data = new PlayerData();
-            String displayname = (String) data.fromUUID(player.getUniqueId().toString())[3];
+            String displayname = (String) data.fromUUID(player.getUniqueId().toString())[2];
             if(message_type.equals("playername") || displayname.equals(player.getName())){
                 format_playername = format_playername.replaceAll("#player#", player.getName());
                 event.setJoinMessage(Tools.tranColor(format_playername));

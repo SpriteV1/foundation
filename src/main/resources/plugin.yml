@@ -7,7 +7,7 @@ commands:
   feed:
     description: Used to fully restore a player's hunger.
   gamemode:
-    aliases: [ gm ]
+    aliases: [ gm, gms, gmc, gma, gmsp ]
     description: Used to change a player's game mode.
   heal:
     description: Used to fully restore a player's health.
@@ -20,3 +20,6 @@ commands:
   uptime:
     aliases: [ utime, ut ]
     description: Used to check the server's uptime.
+  vanish:
+    aliases: [ v ]
+    description: Used to hide a player from others.

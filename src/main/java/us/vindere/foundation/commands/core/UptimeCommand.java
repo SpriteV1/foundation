@@ -1,4 +1,4 @@
-package us.vindere.foundation.commands;
+package us.vindere.foundation.commands.core;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 import us.vindere.foundation.Foundation;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.commands.phUptime;
+import us.vindere.foundation.placeholders.commands.core.phUptime;
 
 public class UptimeCommand implements CommandExecutor{
 

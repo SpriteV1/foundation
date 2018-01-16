@@ -1,8 +1,5 @@
 package us.vindere.foundation.utils;
 
-import org.bson.conversions.Bson;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import us.vindere.foundation.Foundation;
 
@@ -11,13 +8,18 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import us.vindere.foundation.commands.*;
+import us.vindere.foundation.commands.admin.VanishCommand;
+import us.vindere.foundation.commands.core.IdentityCommand;
+import us.vindere.foundation.commands.core.NicknameCommand;
+import us.vindere.foundation.commands.game.FeedCommand;
+import us.vindere.foundation.commands.game.GamemodeCommand;
+import us.vindere.foundation.commands.game.HealCommand;
+import us.vindere.foundation.commands.game.SpawnCommand;
 import us.vindere.foundation.events.PlayerJoin;
 import us.vindere.foundation.events.PlayerQuit;
-import us.vindere.foundation.placeholders.commands.phIdentity;
+import us.vindere.foundation.placeholders.commands.core.phIdentity;
 
 import java.io.File;
-import java.util.UUID;
 
 public class Config {
     public static MongoCollection<Document> collection;
@@ -43,6 +45,8 @@ public class Config {
     public Config(SpawnCommand instance){ spawn = instance; }
     IdentityCommand identity;
     public Config(IdentityCommand instance){ identity = instance; }
+    VanishCommand vanish;
+    public Config(VanishCommand instance){ vanish = instance; }
     PlayerJoin joinEvent;
     public Config(PlayerJoin instance){
         joinEvent = instance;

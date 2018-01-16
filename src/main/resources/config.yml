@@ -140,3 +140,14 @@ messages:
       spawn_set_message: "&7The spawn has been set to: &e#location#"
     uptime:
       format: "&7The server has been up for: &e#uptime#"
+    ping:
+      usage: "&eUsage: &7/ping &f[player]"
+      console_error: "&cThe console may not be pinged!"
+      pinger_message: "&f#pingee#&7's ping is: &f#ping#"
+      pinged_message: "&7Your ping is: &f#ping#"
+    vanish:
+      usage: "&eUsage: &7/vanish &f[player]"
+      console_error: "&cThe console may not be vanished!"
+      vanisher_message: "&7You have set &f#vanishee#&7's vanish state to &f#state#&7."
+      vanishee_message: "&7Your vanish state has been set to #state# by &f#vanisher#&7."
+      vanished_message: "&7Your vanish state has been set to &f#state#&7."

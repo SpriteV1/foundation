@@ -1,5 +1,6 @@
-package us.vindere.foundation.commands;
+package us.vindere.foundation.commands.core;
 
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,8 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import us.vindere.foundation.Foundation;
 import us.vindere.foundation.placeholders.phError;
-import us.vindere.foundation.placeholders.commands.phIdentity;
+import us.vindere.foundation.placeholders.commands.core.phIdentity;
 import us.vindere.foundation.utils.Config;
+import us.vindere.foundation.utils.PlayerData;
 import us.vindere.foundation.utils.Tools;
 
 public class IdentityCommand implements CommandExecutor {
@@ -20,6 +22,7 @@ public class IdentityCommand implements CommandExecutor {
 
     public boolean onCommand (CommandSender sender, Command cmd, String label, String[] args) {
         Config config = new Config(this);
+        PlayerData data = new PlayerData();
         Player player = Tools.getPlayer(sender);
         Permission _regularView = new Permission("f.identity.regular");
         Permission _privilegedView = new Permission("f.identity.privileged");
@@ -34,6 +37,13 @@ public class IdentityCommand implements CommandExecutor {
                     return false;
                 }
             } else {
+                Document playerDoc = config.getOfflineDocument(args[0]);
+                Player user = Bukkit.getPlayer(args[0]);
+                if (playerDoc == null){
+                    error.playerMissing(main, sender, args[0]);
+                    return false;
+                }
+
                 if (sender.hasPermission(_privilegedView)) {
                     identity.privilegedFormat(main, sender, args[0]);
                     return true;
